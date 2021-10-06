@@ -6,8 +6,10 @@
     ref="scroll"
     :probeType="3"
     @scrolling="scrolling"
+    :pullUpLoad="true"
+    @pulledUp="pulledUp"
     >
-      <home-swiper :banners = "banners"></home-swiper>
+      <home-swiper :banners = "banners" ref="hSwiper"></home-swiper>
       <home-recommend :recommends = "recommends"></home-recommend>
       <home-feature></home-feature>
       <split-list :titles="['流行', '新款', '精选']" 
@@ -32,6 +34,7 @@
   import HomeFeature from './childComps/HomeFeature.vue';
 
   import {getHomeMultidata, getHomeGoods} from "network/home";
+  import {debounce} from "common/utils"
 
   export default {
     name: 'Home',
@@ -56,6 +59,7 @@
         },
         currentType: 'pop',
         showBackTop: false,
+        positionY: 0,   //路由切换时 Y 的坐标
       }
     },
     computed: {
@@ -70,6 +74,26 @@
       this.getHomeGoods('pop');
       this.getHomeGoods('new');
       this.getHomeGoods('sell');
+
+    },
+    // activated() {
+    //   this.$refs.hSwiper.startTimer();
+    //   this.$refs.scroll.scrollTo(0, this.positionY, 0);
+    //   this.$refs.scroll.refresh();
+    // },
+    // deactivated() {
+    //   this.$refs.hSwiper.stopTimer();
+    // },
+    mounted() {
+      // 注意：这部分不能在 created 里面
+      // 防抖动处理，防止频繁 refresh
+      const refreshScroll = debounce(this.$refs.scroll.refresh, 100);
+      this.$bus.$on("goodImgLoaded", () => {
+        // 解决首页中滚动区域受限的问题
+        // Better-Scroll在的滚动区域 scrollerHeight 属性决定，这个属性根据放Better-Scroll的content中的子组件的高度，但是计算scrollerHeight属性时, 图片可能没加载完，导致高度缺失
+        // 监听每一张图片是否加载完成, 只要有一张图片加载完成了, 执行一次refresh()
+        refreshScroll();
+      });
     },
     methods: {
       /**
@@ -93,6 +117,10 @@
       },
       scrolling(position) {
         this.showBackTop = (-position.y) > 1000;
+        this.positionY = position.y;
+      },
+      pulledUp() {
+        this.loadMore(this.currentType)
       },
       /**
        * 网络请求相关方法
@@ -111,6 +139,11 @@
           this.goods[type].list.push(...res.data.list)
           this.goods[type].page += 1;
         })
+      },
+      loadMore(type) {
+        this.getHomeGoods(type);
+        // 完成上拉加载过多
+        this.$refs.scroll.finishPullUp();
       }
     },
   }
