@@ -84,11 +84,11 @@
     // },
     activated() {
       // this.$refs.hSwiper.startTimer();
-      this.$refs.scroll.scrollTo(0, this.positionY, 0);
       this.$refs.scroll.refresh();
+      this.$refs.scroll.scrollTo(0, this.positionY, 0);
     },
     deactivated() {
-      // this.$refs.hSwiper.stopTimer();
+      this.positionY = this.$refs.scroll.getScrollY();
     },
     
     mounted() {
@@ -124,7 +124,7 @@
       },
       scrolling(position) {
         this.showBackTop = (-position.y) > 1000;
-        this.positionY = position.y;
+        // this.positionY = position.y;
       },
       pulledUp() {
         this.loadMore(this.currentType)

@@ -29,6 +29,7 @@
       getDetail(this.iid).then(res => {
         console.log(res)
         this.topImages = res.result.itemInfo.topImages;
+        
       })
     }
   }
