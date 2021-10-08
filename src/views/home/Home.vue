@@ -76,14 +76,21 @@
       this.getHomeGoods('sell');
 
     },
-    // activated() {
-    //   this.$refs.hSwiper.startTimer();
-    //   this.$refs.scroll.scrollTo(0, this.positionY, 0);
-    //   this.$refs.scroll.refresh();
+    // activated: function () {
+    //   console.log(this.$refs.hSwiper);
     // },
-    // deactivated() {
-    //   this.$refs.hSwiper.stopTimer();
+    // deactivated: function () {
+    //   this.$refs.hSwiper.stopTimer()
     // },
+    activated() {
+      // this.$refs.hSwiper.startTimer();
+      this.$refs.scroll.scrollTo(0, this.positionY, 0);
+      this.$refs.scroll.refresh();
+    },
+    deactivated() {
+      // this.$refs.hSwiper.stopTimer();
+    },
+    
     mounted() {
       // 注意：这部分不能在 created 里面
       // 防抖动处理，防止频繁 refresh

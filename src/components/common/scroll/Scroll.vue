@@ -52,7 +52,6 @@
       refresh() {
         // 确保 scroll 被初始化后调用 refresh 方法
         this.scroll && this.scroll.refresh();
-        console.log('--------')
       },
       finishPullUp() {
         this.scroll && this.scroll.finishPullUp();
