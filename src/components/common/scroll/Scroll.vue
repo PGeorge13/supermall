@@ -1,4 +1,5 @@
 <template>
+<!-- 使用此组件的时候需要添加高度 -->
   <div class="wrapper" ref="wrapper">
     <div class="content">
       <slot></slot>

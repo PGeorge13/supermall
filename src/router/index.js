@@ -18,23 +18,36 @@ export default new Router({
     {
       path: '/home',
       component: Home,
+      meta: {
+        footShow: true,
+      },
     },
     {
       path: '/category',
       component: Category,
+      meta: {
+        footShow: true,
+      },
     },
     {
       path: '/shopcart',
       component: Shopcart,
+      meta: {
+        footShow: true,
+      },
     },
     {
       path: '/profile',
       component: Profile,
+      meta: {
+        footShow: true,
+      },
     },
     {
       path: '/detail/:iid',
       component: Detail,
     }
   ],
+
   mode: 'history'
 })

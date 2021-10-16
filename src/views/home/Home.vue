@@ -2,7 +2,7 @@
   <div id="home">  
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
 
-    <scroll class="content"
+    <scroll class="home-content"
     ref="scroll"
     :probeType="3"
     @scrolling="scrolling"
@@ -173,7 +173,7 @@
     top: 44px;
     z-index: 9;
   }
-  .content {
+  .home-content {
   position: absolute;
   top: 43px;
   bottom: 49px;
